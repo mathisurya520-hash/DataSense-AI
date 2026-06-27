@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Overview - DataSense AI</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+</head>
+<body>
+
+  <!-- Layout container root -->
+  <div id="app-layout">
+    
+    <!-- Dataset Selector Header row -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; gap: 20px; flex-wrap: wrap;">
+      <div>
+        <h1 style="font-family: var(--font-title); font-size: 24px; font-weight: 700; color: var(--text-primary);">Analyst Dashboard</h1>
+        <p style="color: var(--text-muted); font-size: 13px;">Overview of active databases and AI intelligence pipelines.</p>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px; background: var(--bg-card); padding: 8px 16px; border: 1px solid var(--border-glass); border-radius: var(--radius-md);">
+        <span style="font-size: 12px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase;">Active Dataset:</span>
+        <select id="dataset-selector" class="form-control" style="width: 240px; height: 36px; padding: 0 10px; border:none; background:transparent; font-weight:600; color:var(--highlight-yellow); cursor:pointer;">
+          <!-- Dynamically populated -->
+        </select>
+      </div>
+    </div>
+
+    <!-- KPI Blocks Grid -->
+    <div class="kpi-grid">
+      <div class="glass-card kpi-card">
+        <div class="card-title" style="margin:0;">
+          <span style="font-size: 11px; font-weight:700; text-transform:uppercase; color:var(--text-muted);">Total Datasets</span>
+          <i data-lucide="database" style="color:var(--accent-jade); width:18px;"></i>
+        </div>
+        <div class="kpi-value" id="kpi-datasets">-</div>
+        <div class="kpi-change up">
+          <i data-lucide="trending-up" style="width:12px;"></i> Active databases
+        </div>
+      </div>
+
+      <div class="glass-card kpi-card">
+        <div class="card-title" style="margin:0;">
+          <span style="font-size: 11px; font-weight:700; text-transform:uppercase; color:var(--text-muted);">Rows Processed</span>
+          <i data-lucide="layers" style="color:var(--accent-jade); width:18px;"></i>
+        </div>
+        <div class="kpi-value" id="kpi-rows">-</div>
+        <div class="kpi-change up">
+          <i data-lucide="trending-up" style="width:12px;"></i> +14.2% this month
+        </div>
+      </div>
+
+      <div class="glass-card kpi-card">
+        <div class="card-title" style="margin:0;">
+          <span style="font-size: 11px; font-weight:700; text-transform:uppercase; color:var(--text-muted);">Features Columns</span>
+          <i data-lucide="columns" style="color:var(--accent-jade); width:18px;"></i>
+        </div>
+        <div class="kpi-value" id="kpi-cols">-</div>
+        <div class="kpi-change">
+          <i data-lucide="check" style="width:12px;"></i> Schema mapped
+        </div>
+      </div>
+
+      <div class="glass-card kpi-card">
+        <div class="card-title" style="margin:0;">
+          <span style="font-size: 11px; font-weight:700; text-transform:uppercase; color:var(--text-muted);">Forecasting Accuracy</span>
+          <i data-lucide="trending-up" style="color:var(--highlight-yellow); width:18px;"></i>
+        </div>
+        <div class="kpi-value" id="kpi-accuracy">98.4%</div>
+        <div class="kpi-change up">
+          <i data-lucide="zap" style="width:12px; color:var(--highlight-yellow);"></i> Confidence score
+        </div>
+      </div>
+
+      <div class="glass-card kpi-card">
+        <div class="card-title" style="margin:0;">
+          <span style="font-size: 11px; font-weight:700; text-transform:uppercase; color:var(--text-muted);">Reports Generated</span>
+          <i data-lucide="file-text" style="color:var(--accent-jade); width:18px;"></i>
+        </div>
+        <div class="kpi-value" id="kpi-reports">-</div>
+        <div class="kpi-change up">
+          <i data-lucide="check-circle" style="width:12px;"></i> Ready to download
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Layout Section -->
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-bottom: 30px; width: 100%;">
+      <div class="glass-card" style="height: 380px;">
+        <div class="card-title">
+          <span>Sales & Revenue Trajectory</span>
+          <i data-lucide="trending-up"></i>
+        </div>
+        <div id="revenue-trend-chart" style="height: 290px;"></div>
+      </div>
+
+      <div class="glass-card" style="height: 380px;">
+        <div class="card-title">
+          <span>Profit Contribution By Category</span>
+          <i data-lucide="pie-chart"></i>
+        </div>
+        <div id="category-profit-chart" style="height: 290px;"></div>
+      </div>
+    </div>
+
+    <!-- Recommendations & SQL Log Grid -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; width: 100%;" class="grid-stack-mobile">
+      
+      <div class="glass-card">
+        <div class="card-title">
+          <span>Recent SQL Activities</span>
+          <i data-lucide="code-2" style="color:var(--highlight-yellow)"></i>
+        </div>
+        <div class="table-container">
+          <table class="custom-table" id="dashboard-sql-table">
+            <thead>
+              <tr>
+                <th>Prompt Request</th>
+                <th>SQL Command</th>
+                <th>Execution Time</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <div class="card-title">
+          <span>AI Strategy Recommendations</span>
+          <div class="flex-center" style="gap:5px;">
+            <div class="pulse-circle"></div>
+            <span style="font-size: 11px; font-weight:700; color:var(--accent-jade); text-transform:uppercase;">Live AI</span>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 15px;" id="ai-rec-container">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+      
+    </div>
+
+  </div>
+
+  <!-- Shared canvas background wrapper -->
+  <div id="background-canvas-container"></div>
+
+  <!-- Charts Library CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+  <script src="/js/state.js"></script>
+  <script src="/js/background.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/mockData.js"></script>
+  <script src="/js/modules/dashboard.js"></script>
+  
+  <style>
+    @media (max-width: 1024px) {
+      .app-container + div, div[style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+      }
+      .grid-stack-mobile {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+</body>
+</html>

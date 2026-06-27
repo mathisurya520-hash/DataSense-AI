@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Insights - DataSense AI</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <style>
+    .swot-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .swot-card {
+      padding: 20px;
+      border-radius: var(--radius-lg);
+    }
+    .swot-title {
+      font-family: var(--font-title);
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .swot-list {
+      list-style: none;
+      font-size: 12px;
+      color: var(--text-secondary);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app-layout">
+    
+    <!-- Top summary bar -->
+    <div class="glass-card" style="margin-bottom: 30px; border-color: rgba(244, 196, 48, 0.3);">
+      <div class="card-title">
+        <span>Executive Summary & Audit</span>
+        <button id="btn-run-analysis" class="btn btn-primary" style="padding: 6px 15px; font-size:11px;">
+          <i data-lucide="play-circle"></i> Analyze Dataset
+        </button>
+      </div>
+      <p id="ai-summary-text" class="typewriter-cursor" style="font-size:13px; color:var(--text-secondary); line-height:1.8; min-height: 80px;"></p>
+    </div>
+
+    <!-- SWOT Grid -->
+    <h3 style="font-family:var(--font-title); font-size:16px; margin-bottom:15px; color:var(--text-primary);">SWOT Strategic Framework</h3>
+    <div class="swot-grid">
+      <!-- Strengths -->
+      <div class="glass-card swot-card" style="border-color: rgba(47, 175, 122, 0.3); box-shadow: 0 4px 15px rgba(47, 175, 122, 0.05);">
+        <div class="swot-title" style="color: var(--accent-jade);">
+          <i data-lucide="plus-circle"></i> Strengths (Internal)
+        </div>
+        <ul class="swot-list" id="swot-strengths">
+          <!-- Populated dynamically -->
+        </ul>
+      </div>
+
+      <!-- Weaknesses -->
+      <div class="glass-card swot-card" style="border-color: rgba(244, 196, 48, 0.3); box-shadow: 0 4px 15px rgba(244, 196, 48, 0.05);">
+        <div class="swot-title" style="color: var(--highlight-yellow);">
+          <i data-lucide="minus-circle"></i> Weaknesses (Internal)
+        </div>
+        <ul class="swot-list" id="swot-weaknesses">
+          <!-- Populated dynamically -->
+        </ul>
+      </div>
+
+      <!-- Opportunities -->
+      <div class="glass-card swot-card" style="border-color: rgba(47, 175, 122, 0.3); box-shadow: 0 4px 15px rgba(47, 175, 122, 0.05);">
+        <div class="swot-title" style="color: var(--accent-jade);">
+          <i data-lucide="sparkles"></i> Opportunities (External)
+        </div>
+        <ul class="swot-list" id="swot-opportunities">
+          <!-- Populated dynamically -->
+        </ul>
+      </div>
+
+      <!-- Threats -->
+      <div class="glass-card swot-card" style="border-color: rgba(244, 196, 48, 0.3); box-shadow: 0 4px 15px rgba(244, 196, 48, 0.05);">
+        <div class="swot-title" style="color: var(--highlight-yellow);">
+          <i data-lucide="shield-alert"></i> Threats (External)
+        </div>
+        <ul class="swot-list" id="swot-threats">
+          <!-- Populated dynamically -->
+        </ul>
+      </div>
+    </div>
+
+    <!-- Advanced patterns & details lists -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;" class="grid-stack-mobile">
+      <div class="glass-card">
+        <div class="card-title">
+          <span>Anomaly & Outlier Detection</span>
+          <i data-lucide="eye" style="color:var(--highlight-yellow)"></i>
+        </div>
+        <ul style="list-style:none; font-size:12px; color:var(--text-secondary); display:flex; flex-direction:column; gap:12px;" id="anomaly-list">
+          <!-- Populated dynamically -->
+        </ul>
+      </div>
+
+      <div class="glass-card">
+        <div class="card-title">
+          <span>Risk Mitigation Vectors</span>
+          <i data-lucide="shield-check" style="color:var(--accent-jade)"></i>
+        </div>
+        <ul style="list-style:none; font-size:12px; color:var(--text-secondary); display:flex; flex-direction:column; gap:12px;" id="mitigation-list">
+          <!-- Populated dynamically -->
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Shared canvas background wrapper -->
+  <div id="background-canvas-container"></div>
+
+  <script src="/js/state.js"></script>
+  <script src="/js/background.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/modules/aiInsights.js"></script>
+  
+  <style>
+    @media (max-width: 768px) {
+      .swot-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .grid-stack-mobile {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+</body>
+</html>

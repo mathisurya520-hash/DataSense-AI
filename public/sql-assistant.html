@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Assistant Workspace - DataSense AI</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <style>
+    /* Custom console designs */
+    .sql-workspace-grid {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 30px;
+    }
+    .console-ide {
+      background: #050E0C;
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      font-family: 'Courier New', Courier, monospace;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      margin-bottom: 25px;
+    }
+    .console-header {
+      background: #0B1A16;
+      border-bottom: 1px solid rgba(244, 196, 48, 0.15);
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-title);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+    .console-editor-wrapper {
+      display: flex;
+      min-height: 200px;
+    }
+    .console-lines {
+      padding: 15px 10px;
+      background: #081411;
+      border-right: 1px solid rgba(232, 223, 200, 0.05);
+      color: rgba(232, 223, 200, 0.3);
+      text-align: right;
+      font-size: 13px;
+      user-select: none;
+      min-width: 45px;
+    }
+    .console-textarea {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--highlight-gold);
+      padding: 15px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 14px;
+      line-height: 1.5;
+      resize: vertical;
+      min-height: 200px;
+      outline: none;
+    }
+    .favorite-queries-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    .fav-query-card {
+      background: rgba(248, 244, 227, 0.02);
+      border: 1px solid rgba(31, 138, 112, 0.2);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .fav-query-card:hover {
+      background: rgba(31, 138, 112, 0.05);
+      border-color: var(--highlight-yellow);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app-layout">
+    
+    <div class="sql-workspace-grid" id="main-sql-grid">
+      <!-- Workspace side -->
+      <div>
+        <!-- Natural Language Translator Card -->
+        <div class="glass-card" style="margin-bottom: 25px;">
+          <div class="card-title">
+            <span>Translate Question to SQL</span>
+            <i data-lucide="brain"></i>
+          </div>
+          <div class="form-group" style="margin-bottom: 15px;">
+            <textarea id="nl-input" class="form-control" rows="3" placeholder="Explain what data you want to retrieve in plain English... e.g. 'Show the total revenue and signups for March and April'" style="background: rgba(19, 42, 36, 0.3);"></textarea>
+          </div>
+          <div style="display: flex; gap: 15px; justify-content: flex-end;">
+            <button id="btn-translate" class="btn btn-primary">
+              <i data-lucide="sparkles"></i> Generate SQL Query
+            </button>
+          </div>
+        </div>
+
+        <!-- Dark IDE Console -->
+        <div class="console-ide">
+          <div class="console-header">
+            <span class="flex-center" style="gap: 8px;"><i data-lucide="terminal" style="color:var(--highlight-yellow); width:14px;"></i> SQL WORKSHEET console</span>
+            <div style="display:flex; gap:10px;">
+              <button id="btn-format" class="action-btn" title="Format SQL" style="width:28px; height:28px; font-size:12px;"><i data-lucide="align-left" style="width:12px;"></i></button>
+              <button id="btn-copy" class="action-btn" title="Copy Code" style="width:28px; height:28px; font-size:12px;"><i data-lucide="copy" style="width:12px;"></i></button>
+            </div>
+          </div>
+          <div class="console-editor-wrapper">
+            <div class="console-lines">
+              1<br>2<br>3<br>4<br>5<br>6<br>7<br>8
+            </div>
+            <textarea id="sql-console" class="console-textarea" placeholder="SELECT * FROM active_dataset LIMIT 10;"></textarea>
+          </div>
+          <div style="background: #081411; border-top: 1px solid rgba(244, 196, 48, 0.15); padding: 12px 20px; display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; gap:10px;">
+              <button id="btn-explain" class="btn btn-secondary" style="padding: 8px 15px; font-size:12px;">Explain SQL</button>
+              <button id="btn-optimize" class="btn btn-secondary" style="padding: 8px 15px; font-size:12px;">Optimize Query</button>
+            </div>
+            <button id="btn-execute" class="btn btn-primary" style="padding: 8px 20px; font-size:12px; background: linear-gradient(135deg, var(--accent-jade) 0%, var(--bg-primary) 100%);">
+              <i data-lucide="play" style="width:12px;"></i> Execute Query
+            </button>
+          </div>
+        </div>
+
+        <!-- SQL explanation panel -->
+        <div class="glass-card" id="sql-explanation-card" style="display:none; margin-bottom: 25px; border-color: rgba(244, 196, 48, 0.3);">
+          <div class="card-title">
+            <span>AI Code Explanation</span>
+            <i data-lucide="sparkles" style="color:var(--highlight-yellow)"></i>
+          </div>
+          <p id="sql-explanation-text" class="typewriter-cursor" style="font-size:13px; color:var(--text-secondary); line-height:1.7;"></p>
+        </div>
+
+        <!-- Query Execution Results Grid -->
+        <div class="glass-card" id="results-card" style="display:none;">
+          <div class="card-title" style="margin-bottom: 10px;">
+            <span>Query Output Results</span>
+            <span id="exec-metadata" style="font-size: 11px; color:var(--text-muted);">Returned 0 rows in 0 ms</span>
+          </div>
+          <div class="table-container">
+            <table class="custom-table" id="sql-results-table">
+              <thead>
+                <!-- Populated dynamically -->
+              </thead>
+              <tbody>
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- History & favorites side -->
+      <div>
+        <div class="glass-card" style="height: 100%;">
+          <div class="card-title">
+            <span>Saved Queries</span>
+            <i data-lucide="star" style="color:var(--highlight-yellow)"></i>
+          </div>
+          <div class="favorite-queries-list" id="favorites-container">
+            <!-- Dynamically populated -->
+          </div>
+          
+          <div style="margin-top: 30px; border-top:1px solid rgba(232, 223, 200, 0.1); padding-top:20px;">
+            <div class="card-title">
+              <span>Analyst History</span>
+              <i data-lucide="history"></i>
+            </div>
+            <div class="favorite-queries-list" id="history-container" style="max-height: 250px;">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Shared canvas background wrapper -->
+  <div id="background-canvas-container"></div>
+
+  <script src="/js/state.js"></script>
+  <script src="/js/background.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/modules/sqlAssistant.js"></script>
+  
+  <style>
+    @media (max-width: 1024px) {
+      .sql-workspace-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+</body>
+</html>

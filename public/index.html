@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DataSense AI – Intelligent Data Analyst Assistant</title>
+  <meta name="description" content="Futuristic AI-powered database insights, SQL assistant, forecasting, and data cleaner.">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <style>
+    /* Unique Landing Page Styles */
+    .landing-hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 100px 8%;
+      position: relative;
+      gap: 50px;
+    }
+    .hero-content {
+      flex: 1;
+      max-width: 650px;
+    }
+    .hero-visual {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .floating-database {
+      width: 320px;
+      height: 380px;
+      border: 2px solid var(--border-glass);
+      border-radius: 30px;
+      background: rgba(248, 244, 227, 0.03);
+      backdrop-filter: blur(15px);
+      box-shadow: 0 20px 50px rgba(31, 138, 112, 0.3), inset 0 0 30px rgba(244, 196, 48, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      padding: 30px;
+      animation: float-slow 6s ease-in-out infinite;
+    }
+    @keyframes float-slow {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(1deg); }
+    }
+    .cylinder {
+      width: 140px;
+      height: 50px;
+      border: 1px solid var(--highlight-gold);
+      border-radius: 50%;
+      background: linear-gradient(180deg, var(--bg-surface) 0%, rgba(31, 138, 112, 0.6) 100%);
+      box-shadow: 0 5px 15px rgba(244, 196, 48, 0.15);
+      position: relative;
+    }
+    .cylinder::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      width: 140px;
+      height: 25px;
+      border: 1px solid var(--highlight-gold);
+      border-radius: 50%;
+      background: var(--bg-surface);
+    }
+    .chip {
+      background: rgba(47, 175, 122, 0.15);
+      border: 1px solid var(--accent-jade);
+      color: var(--text-primary);
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      display: inline-block;
+      box-shadow: 0 0 10px rgba(47, 175, 122, 0.2);
+    }
+    .hero-title {
+      font-family: var(--font-title);
+      font-size: 56px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      color: var(--text-primary);
+    }
+    .hero-title span {
+      background: linear-gradient(135deg, var(--highlight-yellow) 0%, var(--accent-jade) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: none;
+    }
+    .hero-desc {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 35px;
+      line-height: 1.8;
+    }
+    .feature-section {
+      padding: 100px 8%;
+      background: rgba(19, 42, 36, 0.4);
+      border-top: 1px solid rgba(244, 196, 48, 0.1);
+      border-bottom: 1px solid rgba(244, 196, 48, 0.1);
+      backdrop-filter: blur(10px);
+    }
+    .section-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 60px auto;
+    }
+    .section-title {
+      font-family: var(--font-title);
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 15px;
+    }
+    .section-subtitle {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    .feature-card {
+      text-align: left;
+    }
+    .feature-icon-wrapper {
+      width: 50px;
+      height: 50px;
+      border-radius: var(--radius-md);
+      background: rgba(244, 196, 48, 0.1);
+      border: 1px solid var(--border-glass);
+      color: var(--highlight-yellow);
+      margin-bottom: 20px;
+      font-size: 20px;
+    }
+    .feature-card h3 {
+      font-family: var(--font-title);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+    .feature-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .pricing-section {
+      padding: 100px 8%;
+      text-align: center;
+    }
+    .pricing-grid {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-top: 50px;
+    }
+    .price-card {
+      width: 320px;
+      border-radius: var(--radius-lg);
+      padding: 40px 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      transition: all var(--transition-normal);
+    }
+    .price-card.featured {
+      border-color: var(--highlight-yellow);
+      transform: scale(1.05);
+      box-shadow: 0 15px 40px rgba(31, 138, 112, 0.3);
+    }
+    .price-value {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin: 20px 0 10px 0;
+      font-family: var(--font-title);
+    }
+    .price-value span {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+    .nav-bar {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 8%;
+      border-bottom: 1px solid rgba(244, 196, 48, 0.1);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(11, 31, 26, 0.8);
+    }
+    @media (max-width: 768px) {
+      .landing-hero {
+        flex-direction: column;
+        padding-top: 130px;
+        text-align: center;
+      }
+      .hero-title {
+        font-size: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="nav-bar">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <i class="logo-icon" data-lucide="database" style="color:var(--highlight-yellow); font-size:24px;"></i>
+      <span class="logo-text" style="font-size:20px; font-weight:700;">DataSense <span style="color:var(--accent-jade)">AI</span></span>
+    </div>
+    <div style="display: flex; gap: 20px;">
+      <a href="/login.html" class="btn btn-secondary" style="padding: 10px 20px; border-radius:30px;">Login</a>
+      <a href="/login.html" class="btn btn-primary" style="padding: 10px 20px; border-radius:30px;">Sign Up</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="landing-hero">
+    <div class="hero-content">
+      <span class="chip">Executive Intelligence</span>
+      <h1 class="hero-title">Your Intelligent AI <span>Data Analyst</span> Assistant</h1>
+      <p class="hero-desc">
+        Analyze enterprise datasets, formulate optimized SQL queries, evaluate forecast modeling, generate SWOT strategies, and construct executive PDF dossiers using DataSense AI's luxury analytics suite.
+      </p>
+      <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+        <a href="/login.html" class="btn btn-primary" style="padding: 15px 35px; border-radius: 30px; font-size:15px;">Start Analyzing</a>
+        <a href="#features" class="btn btn-secondary" style="padding: 15px 35px; border-radius: 30px; font-size:15px;">Explore Features</a>
+      </div>
+    </div>
+    
+    <div class="hero-visual">
+      <div class="floating-database">
+        <div class="cylinder"></div>
+        <div class="cylinder" style="animation-delay: -2s; transform: scale(0.9);"></div>
+        <div class="cylinder" style="animation-delay: -4s; transform: scale(0.95);"></div>
+        
+        <div style="display:flex; justify-content:space-around; width:100%; font-size:11px; font-weight:700; color:var(--highlight-yellow);">
+          <span class="flex-center" style="gap:5px;"><i data-lucide="cpu" style="width:12px;"></i> AI NODE</span>
+          <span class="flex-center" style="gap:5px;"><i data-lucide="check" style="width:12px;"></i> ONLINE</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Highlights Section -->
+  <section class="feature-section" id="features">
+    <div class="section-header">
+      <h2 class="section-title">Engineered for Executive Analysis</h2>
+      <p class="section-subtitle">A cohesive full-stack environment built to audit and visualize database models.</p>
+    </div>
+    
+    <div class="features-grid">
+      <div class="glass-card feature-card">
+        <div class="feature-icon-wrapper flex-center">
+          <i data-lucide="message-square-code"></i>
+        </div>
+        <h3>Natural Language → SQL</h3>
+        <p>Convert questions into clean, execution-ready SQL codes. Explain schemas, format code, and optimize SQL syntax with an AI workspace.</p>
+      </div>
+
+      <div class="glass-card feature-card">
+        <div class="feature-icon-wrapper flex-center">
+          <i data-lucide="sparkles"></i>
+        </div>
+        <h3>AI Data Cleaning</h3>
+        <p>Auto-detect null columns, outliers, and duplicates. Perform automated dataset formatting in-memory and download verified output.</p>
+      </div>
+
+      <div class="glass-card feature-card">
+        <div class="feature-icon-wrapper flex-center">
+          <i data-lucide="presentation"></i>
+        </div>
+        <h3>Interactive Dashboard</h3>
+        <p>Dynamically segment your data using regional, category, and chronological parameters. Leverage beautiful, dark-themed charts.</p>
+      </div>
+
+      <div class="glass-card feature-card">
+        <div class="feature-icon-wrapper flex-center">
+          <i data-lucide="brain"></i>
+        </div>
+        <h3>AI Business Insights</h3>
+        <p>Retrieve dynamic, typewriter-animated analysis of your CSV datasets. Auto-generate SWOT frameworks and performance audits.</p>
+      </div>
+
+      <div class="glass-card feature-card">
+        <div class="feature-icon-wrapper flex-center">
+          <i data-lucide="line-chart"></i>
+        </div>
+        <h3>Sales Prediction</h3>
+        <p>Apply linear regression modeling to forecast revenue, sales trajectories, and inventory items with clear confidence bounds.</p>
+      </div>
+
+      <div class="glass-card feature-card">
+        <div class="feature-icon-wrapper flex-center">
+          <i data-lucide="printer"></i>
+        </div>
+        <h3>Professional Report Generator</h3>
+        <p>Export elegant, print-ready PDF briefs and spreadsheets configured directly with your visual charts and summaries.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Subscription Pricing Section -->
+  <section class="pricing-section">
+    <div class="section-header">
+      <h2 class="section-title">Transparent Enterprise Pricing</h2>
+      <p class="section-subtitle">Scalable subscriptions designed to serve independent analysts and global firms.</p>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <h3 style="font-family:var(--font-title); font-size:18px; color:var(--text-secondary);">Starter</h3>
+        <div class="price-value">$49<span>/mo</span></div>
+        <p style="color:var(--text-muted); font-size:12px; margin-bottom:30px;">For individual data auditors</p>
+        <ul style="list-style:none; text-align:left; font-size:13px; color:var(--text-secondary); display:flex; flex-direction:column; gap:12px; width:100%; margin-bottom:35px;">
+          <li class="flex-center" style="justify-content:flex-start; gap:8px;"><i data-lucide="check" style="color:var(--accent-jade); width:16px;"></i> 5 Dataset Uploads / mo</li>
+          <li class="flex-center" style="justify-content:flex-start; gap:8px;"><i data-lucide="check" style="color:var(--accent-jade); width:16px;"></i> AI SQL Generator</li>
+          <li class="flex-center" style="justify-content:flex-start; gap:8px;"><i data-lucide="check" style="color:var(--accent-jade); width:16px;"></i> Basic BI Chart filters</li>
+          <li class="flex-center" style="justify-content:flex-start; gap:8px;"><i data-lucide="x" style="color:red; width:16px;"></i> PDF Exporter</li>
+        </ul>
+        <a href="/login.html" class="btn btn-secondary" style="width:100%; border-radius:30px;">Get Started</a>
+      </div>
+
+      <div class="price-card featured">
+        <h3 style="font-family:var(--font-title); font-size:18px; color:var(--highlight-yellow);">Pro Analyst</h3>
+        <div class="price-value">$149<span>/mo</span></div>
+        <p style="color:var(--text-muted); font-size:12px; margin-bottom:30px;">For corporate research teams</p>
+        <ul style="list-style:none; text-align:left; font-size:13px; color:var(--text-secondary); display:flex; flex-direction:column; gap:12px; width:100%; margin-bottom:35px;">
+          <li class="flex-center" style="justify-content:flex-start; gap:8px;"><i data-lucide="check" style="color:var(--highlight-yellow); width:16px;"></i> Unlimited CSV Uploads</li>
+          <li class="flex-center" style="justify-content:flex-start; gap:8px;"><i data-lucide="check" style="color:var(--highlight-yellow); width:16px;"></i> Dynamic Forecasting Models</li>
+          <li class="flex-center" style="justify-content:flex-start; gap:8px;"><i data-lucide="check" style="color:var(--highlight-yellow); width:16px;"></i> Full AI SWOT Strategy room</li>
+          <li class="flex-center" style="justify-content:flex-start; gap:8px;"><i data-lucide="check" style="color:var(--highlight-yellow); width:16px;"></i> Export customized PDFs & Excel</li>
+        </ul>
+        <a href="/login.html" class="btn btn-primary" style="width:100%; border-radius:30px;">Start Free Trial</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ambient background container -->
+  <div id="background-canvas-container"></div>
+
+  <script src="/js/background.js"></script>
+  <script>
+    // Initialize Lucide Icons for Landing
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics Center - DataSense AI</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <style>
+    .analytics-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 30px;
+    }
+    .filter-panel {
+      height: fit-content;
+      position: sticky;
+      top: 90px;
+    }
+    .charts-grid-4 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+    .chart-controls {
+      display: flex;
+      gap: 8px;
+    }
+    .chart-btn-action {
+      background: transparent;
+      border: 1px solid rgba(232, 223, 200, 0.1);
+      color: var(--text-secondary);
+      width: 26px;
+      height: 26px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 11px;
+      transition: all var(--transition-fast);
+    }
+    .chart-btn-action:hover {
+      color: var(--highlight-yellow);
+      border-color: var(--highlight-yellow);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app-layout">
+    
+    <div class="analytics-layout">
+      <!-- Left sidebar: Filter Panel -->
+      <aside class="glass-card filter-panel">
+        <div class="card-title" style="margin-bottom: 20px;">
+          <span>Data Filters</span>
+          <i data-lucide="sliders-horizontal" style="color:var(--highlight-yellow)"></i>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Product Category</label>
+          <select id="filter-category" class="form-control">
+            <option value="ALL">All Categories</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Apparel">Apparel</option>
+            <option value="Furniture">Furniture</option>
+            <option value="Office Supplies">Office Supplies</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Geographic Region</label>
+          <select id="filter-region" class="form-control">
+            <option value="ALL">All Regions</option>
+            <option value="North">North Region</option>
+            <option value="South">South Region</option>
+            <option value="East">East Region</option>
+            <option value="West">West Region</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Auditing Timeline</label>
+          <select id="filter-time" class="form-control">
+            <option value="ALL">All Historical Data</option>
+            <option value="H1">First Half (H1)</option>
+            <option value="H2">Second Half (H2)</option>
+          </select>
+        </div>
+
+        <div style="margin-top: 30px; display:flex; flex-direction:column; gap:12px;">
+          <button id="btn-apply-filters" class="btn btn-primary" style="width: 100%;">
+            <i data-lucide="filter"></i> Apply Segmentation
+          </button>
+          <button id="btn-clear-filters" class="btn btn-secondary" style="width: 100%;">Reset Filters</button>
+        </div>
+      </aside>
+
+      <!-- Right side: Multi-charts grid -->
+      <div>
+        <div class="charts-grid-4">
+          <!-- Chart 1: Sales vs Profit area -->
+          <div class="glass-card" style="height: 360px;">
+            <div class="card-title">
+              <span>Sales vs Net Profit Trend</span>
+              <div class="chart-controls">
+                <button class="chart-btn-action flex-center" onclick="exportChart('sales-profit')"><i data-lucide="download" style="width:12px;"></i></button>
+              </div>
+            </div>
+            <div id="chart-sales-profit" style="height: 280px;"></div>
+          </div>
+
+          <!-- Chart 2: Regional sales bar -->
+          <div class="glass-card" style="height: 360px;">
+            <div class="card-title">
+              <span>Regional Sales Distributions</span>
+              <div class="chart-controls">
+                <button class="chart-btn-action flex-center" onclick="exportChart('regional')"><i data-lucide="download" style="width:12px;"></i></button>
+              </div>
+            </div>
+            <div id="chart-regional-sales" style="height: 280px;"></div>
+          </div>
+
+          <!-- Chart 3: Stock status donut -->
+          <div class="glass-card" style="height: 360px;">
+            <div class="card-title">
+              <span>Inventory Stock Status</span>
+              <div class="chart-controls">
+                <button class="chart-btn-action flex-center" onclick="exportChart('stock')"><i data-lucide="download" style="width:12px;"></i></button>
+              </div>
+            </div>
+            <div id="chart-inventory-stock" style="height: 280px;"></div>
+          </div>
+
+          <!-- Chart 4: Correlation scatter -->
+          <div class="glass-card" style="height: 360px;">
+            <div class="card-title">
+              <span>Price vs Profit Correlations</span>
+              <div class="chart-controls">
+                <button class="chart-btn-action flex-center" onclick="exportChart('correlation')"><i data-lucide="download" style="width:12px;"></i></button>
+              </div>
+            </div>
+            <div id="chart-profit-correlation" style="height: 280px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Shared canvas background wrapper -->
+  <div id="background-canvas-container"></div>
+
+  <!-- Charts Library CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+  <script src="/js/state.js"></script>
+  <script src="/js/background.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/modules/analytics.js"></script>
+  
+  <style>
+    @media (max-width: 1024px) {
+      .analytics-layout {
+        grid-template-columns: 1fr !important;
+      }
+      .filter-panel {
+        position: static;
+        width: 100%;
+        margin-bottom: 30px;
+      }
+      .charts-grid-4 {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+</body>
+</html>

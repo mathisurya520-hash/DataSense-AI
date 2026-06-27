@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Settings - DataSense AI</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+</head>
+<body>
+
+  <div id="app-layout">
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;" class="grid-stack-mobile">
+      <!-- Profile parameters -->
+      <div class="glass-card">
+        <div class="card-title">
+          <span>Lead Analyst Profile</span>
+          <i data-lucide="user"></i>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Username</label>
+          <input type="text" id="prof-username" class="form-control" readonly style="opacity: 0.7; background:rgba(0,0,0,0.1);">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="prof-email" class="form-control" readonly style="opacity: 0.7; background:rgba(0,0,0,0.1);">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Authorization Role</label>
+          <input type="text" class="form-control" value="Lead Database Analyst" readonly style="opacity: 0.7; background:rgba(0,0,0,0.1);">
+        </div>
+      </div>
+
+      <!-- App preferences -->
+      <div class="glass-card">
+        <div class="card-title">
+          <span>Portal Preferences</span>
+          <i data-lucide="settings" style="color:var(--highlight-yellow)"></i>
+        </div>
+
+        <form id="settings-form" onsubmit="savePreferences(event)">
+          <div class="form-group">
+            <label class="form-label">Animation Speed</label>
+            <select id="pref-anims" class="form-control">
+              <option value="slow">Elegant (Slow)</option>
+              <option value="normal" selected>Standard (Normal)</option>
+              <option value="fast">High Performance (Fast)</option>
+              <option value="disabled">Disable Canvas Animations</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 25px;">
+            <label class="form-label">Active API Token key</label>
+            <input type="password" id="pref-apikey" class="form-control" placeholder="sk-proj-••••••••••••••••">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" style="margin-bottom: 12px;">Alert Notification Channels</label>
+            <div style="display:flex; flex-direction:column; gap:10px; font-size:12px;">
+              <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                <input type="checkbox" id="chk-notif-analysis" checked style="accent-color:var(--highlight-yellow)"> Notify on CSV Upload & Cleanings
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                <input type="checkbox" id="chk-notif-report" checked style="accent-color:var(--highlight-yellow)"> Notify on PDF Report Finalizations
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                <input type="checkbox" id="chk-notif-prediction" checked style="accent-color:var(--highlight-yellow)"> Notify on Predictive Forecasting Calculations
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 15px;">
+            Save Preferences
+          </button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Shared canvas background wrapper -->
+  <div id="background-canvas-container"></div>
+
+  <script src="/js/state.js"></script>
+  <script src="/js/background.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/modules/settings.js"></script>
+  
+  <style>
+    @media (max-width: 768px) {
+      .grid-stack-mobile {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+</body>
+</html>

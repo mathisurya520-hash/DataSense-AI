@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSV Analyzer & Clean Studio - DataSense AI</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <style>
+    /* Unique upload area designs */
+    .dropzone-container {
+      border: 2px dashed var(--border-glass);
+      border-radius: var(--radius-lg);
+      background: rgba(248, 244, 227, 0.02);
+      padding: 50px 30px;
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--transition-normal);
+      margin-bottom: 30px;
+    }
+    .dropzone-container:hover, .dropzone-container.dragover {
+      border-color: var(--highlight-yellow);
+      background: rgba(31, 138, 112, 0.05);
+      box-shadow: 0 0 25px rgba(244, 196, 48, 0.1);
+    }
+    .analyzer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+    }
+    .quality-dial {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--bg-surface) 60%, transparent 100%);
+      border: 4px solid var(--border-glass);
+      position: relative;
+      margin: 0 auto 20px auto;
+      box-shadow: 0 0 20px rgba(31, 138, 112, 0.15);
+    }
+    .quality-score-value {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-title);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--highlight-yellow);
+    }
+    .progress-bar-wrapper {
+      width: 100%;
+      height: 6px;
+      background: rgba(232, 223, 200, 0.1);
+      border-radius: 10px;
+      margin-top: 15px;
+      overflow: hidden;
+      display: none;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-emerald) 0%, var(--highlight-yellow) 100%);
+      transition: width 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app-layout">
+    
+    <!-- Drag zone -->
+    <div class="dropzone-container" id="csv-dropzone">
+      <input type="file" id="csv-file-input" accept=".csv" style="display: none;">
+      <i data-lucide="cloud-lightning" style="color:var(--highlight-yellow); width:48px; height:48px; margin-bottom:15px; animation: pulse-glow 2s infinite;"></i>
+      <h3 style="font-family: var(--font-title); font-size:18px; margin-bottom:8px;">Drag and Drop CSV File Here</h3>
+      <p style="color:var(--text-muted); font-size:13px; margin-bottom:15px;">Supports standard spreadsheet uploads. Maximum file size: 50MB.</p>
+      <button class="btn btn-secondary" style="padding: 8px 24px; font-size:12px;" onclick="document.getElementById('csv-file-input').click()">Browse Files</button>
+      
+      <div class="progress-bar-wrapper" id="upload-progress-wrapper">
+        <div class="progress-bar-fill" id="upload-progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- Main analysis segments -->
+    <div class="analyzer-grid" id="analyzer-details-wrapper" style="display: none;">
+      <!-- Left side: columns and metadata lists -->
+      <div>
+        <!-- Data preview card -->
+        <div class="glass-card" style="margin-bottom: 30px;">
+          <div class="card-title">
+            <span>Dataset Preview (Top 5 rows)</span>
+            <span id="preview-filename" style="font-size:11px; color:var(--highlight-gold);">filename.csv</span>
+          </div>
+          <div class="table-container">
+            <table class="custom-table" id="preview-table">
+              <thead>
+                <!-- Populated dynamically -->
+              </thead>
+              <tbody>
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Columns parameters card -->
+        <div class="glass-card">
+          <div class="card-title">
+            <span>Columns Schema Statistics</span>
+            <i data-lucide="list-collapse"></i>
+          </div>
+          <div class="table-container">
+            <table class="custom-table" id="columns-stats-table">
+              <thead>
+                <tr>
+                  <th>Column Name</th>
+                  <th>Data Type</th>
+                  <th>Missing Values</th>
+                  <th>Null Percentage</th>
+                  <th>Sample Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side: quality dial and actions -->
+      <div>
+        <div class="glass-card" style="text-align: center; margin-bottom: 30px;">
+          <div class="card-title" style="justify-content: center; gap: 8px;">
+            <span>Data Quality Matrix</span>
+          </div>
+          
+          <div class="quality-dial">
+            <div class="quality-score-value" id="quality-score-val">0%</div>
+          </div>
+          
+          <div style="text-align: left; margin: 20px 0; border-top:1px solid rgba(232,223,200,0.1); padding-top:20px;">
+            <div style="font-size:12px; font-weight:700; color:var(--text-primary); text-transform:uppercase; margin-bottom:12px;">Suggested Actions</div>
+            <ul style="list-style:none; font-size:12px; color:var(--text-secondary); display:flex; flex-direction:column; gap:10px;" id="cleaning-suggestions-list">
+              <!-- Populated dynamically -->
+            </ul>
+          </div>
+          
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <button id="btn-auto-clean" class="btn btn-primary" style="width: 100%;">
+              <i data-lucide="sparkles"></i> Auto Clean Dataset
+            </button>
+            <button id="btn-download-clean" class="btn btn-secondary" style="width: 100%;">
+              <i data-lucide="download"></i> Download Clean CSV
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Shared canvas background wrapper -->
+  <div id="background-canvas-container"></div>
+
+  <!-- Excel/CSV parser CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <script src="/js/state.js"></script>
+  <script src="/js/background.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/modules/csvAnalyzer.js"></script>
+  
+  <style>
+    @media (max-width: 1024px) {
+      .analyzer-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+</body>
+</html>

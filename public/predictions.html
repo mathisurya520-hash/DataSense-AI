@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Predictive Analytics - DataSense AI</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <style>
+    .prediction-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 30px;
+    }
+    .predict-control-panel {
+      height: fit-content;
+      position: sticky;
+      top: 90px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app-layout">
+    
+    <div class="prediction-layout">
+      <!-- Left sidebar: Controls -->
+      <aside class="glass-card predict-control-panel">
+        <div class="card-title">
+          <span>Model Parameters</span>
+          <i data-lucide="line-chart" style="color:var(--highlight-yellow)"></i>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Target Metric</label>
+          <select id="predict-target" class="form-control">
+            <option value="Revenue">Revenue / Sales</option>
+            <option value="Signups">New Signups</option>
+            <option value="CAC">CAC Spend</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Forecast Length</label>
+          <select id="predict-length" class="form-control">
+            <option value="3">Next 3 Months</option>
+            <option value="6" selected>Next 6 Months</option>
+            <option value="12">Next 12 Months</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Confidence Interval</label>
+          <select id="predict-confidence" class="form-control">
+            <option value="90">90% Confidence Interval</option>
+            <option value="95" selected>95% Confidence Interval</option>
+            <option value="99">99% Confidence Interval</option>
+          </select>
+        </div>
+
+        <button id="btn-run-forecast" class="btn btn-primary" style="width: 100%; margin-top: 15px;">
+          <i data-lucide="activity"></i> Run Forecast Model
+        </button>
+      </aside>
+
+      <!-- Right side: Forecast details and charts -->
+      <div>
+        <!-- Prediction statistics -->
+        <div class="kpi-grid" style="margin-bottom: 25px;">
+          <div class="glass-card kpi-card">
+            <div class="card-title" style="margin:0;">
+              <span style="font-size: 11px; font-weight:700; text-transform:uppercase; color:var(--text-muted);">Projected Growth</span>
+              <i data-lucide="trending-up" style="color:var(--accent-jade); width:18px;"></i>
+            </div>
+            <div class="kpi-value" id="pred-growth">+0.0%</div>
+            <div class="kpi-change up">Forecast trajectory</div>
+          </div>
+
+          <div class="glass-card kpi-card">
+            <div class="card-title" style="margin:0;">
+              <span style="font-size: 11px; font-weight:700; text-transform:uppercase; color:var(--text-muted);">Model R² Accuracy</span>
+              <i data-lucide="star" style="color:var(--highlight-yellow); width:18px;"></i>
+            </div>
+            <div class="kpi-value" id="pred-accuracy">0.94</div>
+            <div class="kpi-change">Statistical fit</div>
+          </div>
+
+          <div class="glass-card kpi-card">
+            <div class="card-title" style="margin:0;">
+              <span style="font-size: 11px; font-weight:700; text-transform:uppercase; color:var(--text-muted);">Volatility Score</span>
+              <i data-lucide="activity" style="color:var(--highlight-yellow); width:18px;"></i>
+            </div>
+            <div class="kpi-value" id="pred-risk">LOW</div>
+            <div class="kpi-change down">Variance factor</div>
+          </div>
+        </div>
+
+        <!-- Forecasting Chart card -->
+        <div class="glass-card" style="margin-bottom: 30px; height: 380px;">
+          <div class="card-title">
+            <span>Historical Actuals vs Forecast Projections</span>
+            <i data-lucide="presentation"></i>
+          </div>
+          <div id="forecast-curve-chart" style="height: 290px;"></div>
+        </div>
+
+        <!-- Written model explanation -->
+        <div class="glass-card" style="border-color: rgba(47, 175, 122, 0.3);">
+          <div class="card-title">
+            <span>AI Statistical Analysis & Bounds</span>
+            <i data-lucide="brain"></i>
+          </div>
+          <p id="forecast-explanation-text" class="typewriter-cursor" style="font-size:13px; color:var(--text-secondary); line-height:1.7; min-height:60px;"></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Shared canvas background wrapper -->
+  <div id="background-canvas-container"></div>
+
+  <!-- Charts Library CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+  <script src="/js/state.js"></script>
+  <script src="/js/background.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/modules/predictions.js"></script>
+  
+  <style>
+    @media (max-width: 1024px) {
+      .prediction-layout {
+        grid-template-columns: 1fr !important;
+      }
+      .predict-control-panel {
+        position: static;
+        width: 100%;
+        margin-bottom: 30px;
+      }
+    }
+  </style>
+</body>
+</html>
