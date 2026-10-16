@@ -37,9 +37,7 @@
   </style>
 </head>
 <body>
-
-  <div id="app-layout">
-    
+  <div id="app-layout"> 
     <!-- Top summary bar -->
     <div class="glass-card" style="margin-bottom: 30px; border-color: rgba(244, 196, 48, 0.3);">
       <div class="card-title">
@@ -50,7 +48,6 @@
       </div>
       <p id="ai-summary-text" class="typewriter-cursor" style="font-size:13px; color:var(--text-secondary); line-height:1.8; min-height: 80px;"></p>
     </div>
-
     <!-- SWOT Grid -->
     <h3 style="font-family:var(--font-title); font-size:16px; margin-bottom:15px; color:var(--text-primary);">SWOT Strategic Framework</h3>
     <div class="swot-grid">
@@ -63,7 +60,6 @@
           <!-- Populated dynamically -->
         </ul>
       </div>
-
       <!-- Weaknesses -->
       <div class="glass-card swot-card" style="border-color: rgba(244, 196, 48, 0.3); box-shadow: 0 4px 15px rgba(244, 196, 48, 0.05);">
         <div class="swot-title" style="color: var(--highlight-yellow);">
@@ -73,7 +69,6 @@
           <!-- Populated dynamically -->
         </ul>
       </div>
-
       <!-- Opportunities -->
       <div class="glass-card swot-card" style="border-color: rgba(47, 175, 122, 0.3); box-shadow: 0 4px 15px rgba(47, 175, 122, 0.05);">
         <div class="swot-title" style="color: var(--accent-jade);">
@@ -83,7 +78,6 @@
           <!-- Populated dynamically -->
         </ul>
       </div>
-
       <!-- Threats -->
       <div class="glass-card swot-card" style="border-color: rgba(244, 196, 48, 0.3); box-shadow: 0 4px 15px rgba(244, 196, 48, 0.05);">
         <div class="swot-title" style="color: var(--highlight-yellow);">
@@ -94,7 +88,6 @@
         </ul>
       </div>
     </div>
-
     <!-- Advanced patterns & details lists -->
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;" class="grid-stack-mobile">
       <div class="glass-card">
@@ -106,7 +99,6 @@
           <!-- Populated dynamically -->
         </ul>
       </div>
-
       <div class="glass-card">
         <div class="card-title">
           <span>Risk Mitigation Vectors</span>
@@ -117,17 +109,13 @@
         </ul>
       </div>
     </div>
-
   </div>
-
   <!-- Shared canvas background wrapper -->
   <div id="background-canvas-container"></div>
-
   <script src="/js/state.js"></script>
   <script src="/js/background.js"></script>
   <script src="/js/layout.js"></script>
   <script src="/js/modules/aiInsights.js"></script>
-  
   <style>
     @media (max-width: 768px) {
       .swot-grid {
